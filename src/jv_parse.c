@@ -397,7 +397,7 @@ static void tokenadd(struct jv_parser* p, char c) {
   p->tokenbuf[p->tokenpos++] = c;
 }
 
-static int unhex4(const char* hex) {
+static FNPURE int unhex4(const char* hex) {
   int r = 0;
   for (int i=0; i<4; i++) {
     char c = *hex++;
@@ -413,7 +413,7 @@ static int unhex4(const char* hex) {
 }
 
 static pfunc found_string(struct jv_parser* p) {
-  char* in = p->tokenbuf;
+  const char* in = p->tokenbuf;
   char* out = p->tokenbuf;
   char* end = p->tokenbuf + p->tokenpos;
 
@@ -510,7 +510,7 @@ typedef enum {
   INVALID
 } chclass;
 
-static chclass classify(char c) {
+static FNCONST chclass classify(char c) {
   switch (c) {
   case ' ':
   case '\t':
@@ -566,20 +566,20 @@ static int stream_check_done(struct jv_parser* p, jv* out) {
   }
 }
 
-static int parse_check_truncation(const struct jv_parser* p) {
+static FNPURE int parse_check_truncation(const struct jv_parser* p) {
   return ((p->flags & JV_PARSE_SEQ) && !p->last_ch_was_ws && (p->stackpos > 0 || p->tokenpos > 0 || jv_get_kind(p->next) == JV_KIND_NUMBER));
 }
 
-static int stream_check_truncation(const struct jv_parser* p) {
+static FNPURE int stream_check_truncation(const struct jv_parser* p) {
   jv_kind k = jv_get_kind(p->next);
   return (p->stacklen > 0 || k == JV_KIND_NUMBER || k == JV_KIND_TRUE || k == JV_KIND_FALSE || k == JV_KIND_NULL);
 }
 
-static int parse_is_top_num(const struct jv_parser* p) {
+static FNPURE int parse_is_top_num(const struct jv_parser* p) {
   return (p->stackpos == 0 && jv_get_kind(p->next) == JV_KIND_NUMBER);
 }
 
-static int stream_is_top_num(const struct jv_parser* p) {
+static FNPURE int stream_is_top_num(const struct jv_parser* p) {
   return (p->stacklen == 0 && jv_get_kind(p->next) == JV_KIND_NUMBER);
 }
 
