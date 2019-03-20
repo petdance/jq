@@ -1,8 +1,8 @@
 #ifndef JV_H
 #define JV_H
 
-#define FNPURE __attribute__((pure))
-#define FNCONST __attribute__((const))
+#define FNPURE  __attribute__((pure))
+#define FNCONST __attribute__((pure,const))
 
 #include <stdarg.h>
 #include <stdint.h>
@@ -39,33 +39,33 @@ typedef struct {
  * Except jv_copy
  */
 
-jv_kind jv_get_kind(jv);
-const char* jv_kind_name(jv_kind);
-static int jv_is_valid(jv x) { return jv_get_kind(x) != JV_KIND_INVALID; }
+jv_kind FNCONST jv_get_kind(jv);
+const char* FNCONST jv_kind_name(jv_kind);
+static int FNCONST jv_is_valid(jv x) { return jv_get_kind(x) != JV_KIND_INVALID; }
 
 jv jv_copy(jv);
 void jv_free(jv);
 
-int jv_get_refcnt(jv);
+int FNPURE jv_get_refcnt(jv);
 
 int jv_equal(jv, jv);
 int jv_identical(jv, jv);
 int jv_contains(jv, jv);
 
-jv jv_invalid(void);
+jv FNCONST jv_invalid(void);
 jv jv_invalid_with_msg(jv);
 jv jv_invalid_get_msg(jv);
 int jv_invalid_has_msg(jv);
 
 
-jv jv_null(void);
-jv jv_true(void);
-jv jv_false(void);
-jv jv_bool(int);
+jv FNCONST jv_null(void);
+jv FNCONST jv_true(void);
+jv FNCONST jv_false(void);
+jv FNCONST jv_bool(int);
 
 jv jv_number(double);
-double jv_number_value(jv);
-int jv_is_integer(jv);
+double FNCONST jv_number_value(jv);
+int FNCONST jv_is_integer(jv);
 
 jv jv_array(void);
 jv jv_array_sized(int);
@@ -196,7 +196,7 @@ jv jv_object_iter_value(jv, int);
 
 
 
-int jv_get_refcnt(jv);
+int FNCONST jv_get_refcnt(jv);
 
 enum jv_print_flags {
   JV_PRINT_PRETTY   = 1,

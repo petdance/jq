@@ -32,7 +32,7 @@ static int jvp_refcnt_dec(jv_refcnt* c) {
   return c->count == 0;
 }
 
-static int jvp_refcnt_unshared(const jv_refcnt* c) {
+static int FNPURE jvp_refcnt_unshared(const jv_refcnt* c) {
   assert(c->count > 0);
   return c->count == 1;
 }
@@ -177,7 +177,7 @@ typedef struct {
   jv elements[];
 } jvp_array;
 
-static jvp_array* jvp_array_ptr(jv a) {
+static jvp_array* FNCONST jvp_array_ptr(jv a) {
   assert(jv_get_kind(a) == JV_KIND_ARRAY);
   return (jvp_array*)a.u.ptr;
 }
@@ -206,12 +206,12 @@ static void jvp_array_free(jv a) {
   }
 }
 
-static int jvp_array_length(jv a) {
+static int FNCONST jvp_array_length(jv a) {
   assert(jv_get_kind(a) == JV_KIND_ARRAY);
   return a.size;
 }
 
-static int jvp_array_offset(jv a) {
+static int FNCONST jvp_array_offset(jv a) {
   assert(jv_get_kind(a) == JV_KIND_ARRAY);
   return a.offset;
 }
@@ -504,11 +504,11 @@ static void jvp_string_free(jv js) {
   }
 }
 
-static uint32_t jvp_string_length(const jvp_string* s) {
+static uint32_t FNPURE jvp_string_length(const jvp_string* s) {
   return s->length_hashed >> 1;
 }
 
-static uint32_t jvp_string_remaining_space(const jvp_string* s) {
+static uint32_t FNPURE jvp_string_remaining_space(const jvp_string* s) {
   assert(s->alloc_length >= jvp_string_length(s));
   uint32_t r = s->alloc_length - jvp_string_length(s);
   return r;
@@ -905,12 +905,12 @@ static jvp_object* jvp_object_ptr(jv o) {
   return (jvp_object*)o.u.ptr;
 }
 
-static uint32_t jvp_object_mask(jv o) {
+static uint32_t FNCONST jvp_object_mask(jv o) {
   assert(jv_get_kind(o) == JV_KIND_OBJECT);
   return (o.size * 2) - 1;
 }
 
-static int jvp_object_size(jv o) {
+static int FNCONST jvp_object_size(jv o) {
   assert(jv_get_kind(o) == JV_KIND_OBJECT);
   return o.size;
 }
