@@ -135,7 +135,7 @@ jv jv_object_merge_recursive(jv, jv);
 
 int jv_object_iter(jv);
 int jv_object_iter_next(jv, int);
-int jv_object_iter_valid(jv, int);
+FNCONST int jv_object_iter_valid(jv, int);
 jv jv_object_iter_key(jv, int);
 jv jv_object_iter_value(jv, int);
 #define jv_object_foreach(t, k, v)                                      \

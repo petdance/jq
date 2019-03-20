@@ -440,7 +440,7 @@ typedef struct {
   char data[];
 } jvp_string;
 
-static jvp_string* jvp_string_ptr(jv a) {
+static FNCONST jvp_string* jvp_string_ptr(jv a) {
   assert(jv_get_kind(a) == JV_KIND_STRING);
   return (jvp_string*)a.u.ptr;
 }
@@ -900,17 +900,17 @@ static jv jvp_object_new(int size) {
   return r;
 }
 
-static jvp_object* jvp_object_ptr(jv o) {
+static FNCONST jvp_object* jvp_object_ptr(jv o) {
   assert(jv_get_kind(o) == JV_KIND_OBJECT);
   return (jvp_object*)o.u.ptr;
 }
 
-static uint32_t FNCONST jvp_object_mask(jv o) {
+static FNCONST uint32_t jvp_object_mask(jv o) {
   assert(jv_get_kind(o) == JV_KIND_OBJECT);
   return (o.size * 2) - 1;
 }
 
-static int FNCONST jvp_object_size(jv o) {
+static FNCONST int jvp_object_size(jv o) {
   assert(jv_get_kind(o) == JV_KIND_OBJECT);
   return o.size;
 }
