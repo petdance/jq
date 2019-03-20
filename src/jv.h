@@ -1,6 +1,9 @@
 #ifndef JV_H
 #define JV_H
 
+#define FNPURE __attribute__((pure))
+#define FNCONST __attribute__((const))
+
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
