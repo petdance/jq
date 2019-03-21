@@ -287,7 +287,7 @@ int block_has_only_binders(block binders, int bindflags) {
 }
 
 // Count a call site's actual params
-static int block_count_actuals(block b) {
+static FNPURE int block_count_actuals(block b) {
   int args = 0;
   for (const inst* i = b.first; i; i = i->next) {
     switch (i->op) {
@@ -1099,7 +1099,7 @@ block gen_cbinding(const struct cfunction* cfunctions, int ncfunctions, block co
   return code;
 }
 
-static uint16_t nesting_level(const struct bytecode* bc, const inst* target) {
+static FNPURE uint16_t nesting_level(const struct bytecode* bc, const inst* target) {
   uint16_t level = 0;
   assert(bc && target && target->compiled);
   while (bc && target->compiled != bc) {
@@ -1110,7 +1110,7 @@ static uint16_t nesting_level(const struct bytecode* bc, const inst* target) {
   return level;
 }
 
-static int count_cfunctions(block b) {
+static FNPURE int count_cfunctions(block b) {
   int n = 0;
   for (const inst* i = b.first; i; i = i->next) {
     if (i->op == CLOSURE_CREATE_C) n++;
